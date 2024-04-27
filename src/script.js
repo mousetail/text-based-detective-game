@@ -1,3 +1,6 @@
+import markdownit from 'markdown-it';
+const md = markdownit();
+
 const unindent = ([s]) => {
   lines = s
     .replace(/^\n|\n *$/g, "")
@@ -46,25 +49,25 @@ const documents = {
 
         Interview started at Sunday 14-1-2024 17:26
 
-        Officer: How do you know Rebecca?
+        **Officer:** How do you know Rebecca?
 
-        Red: She is my sister.
+        **Red:** She is my sister.
 
-        Officer: You live all the way in Boxon right? When did you arrive in Greenfield?
+        **Officer:** You live all the way in Boxon right? When did you arrive in Greenfield?
 
-        Red: We had some family stuff me and Red needed to take care of. Because of his new job Red
+        **Red**: We had some family stuff me and Red needed to take care of. Because of his new job Red
          was unable to come to Boxon because of his new job, so me and Yellow came here last week to arrange stuff, also to congratulate him on his new job and house.
  
-        Officer: Can you recount the events of this morning?
+        **Officer:** Can you recount the events of this morning?
 
-        Red: Nothing event full really happened all morning. I arrived at Rebecca's
+        **Red:** Nothing event full really happened all morning. I arrived at Rebecca's
         old flat at around 9 AM. We loaded the truck during the morning. 
 
-        Red: After unloading the truck onto the pavement, Around 1 PM Judy went to bring it back to the rental
+        **Red:** After unloading the truck onto the pavement, Around 1 PM Judy went to bring it back to the rental
         place. I was assembling some shelves in the basement. I heard the sound of Judy coming back, Some time later
         I walked up, there I found everyone else just standing in a circle outside, silent, not saying anything.
 
-        Red: I think we where all in shock. Then Duncan arrived, not from the house, IDK where he was. He spanned us out
+        **Red:** I think we where all in shock. Then Duncan arrived, not from the house, IDK where he was. He spanned us out
         of it and called an ambulance. We didn't have much hope.
 
     `,
@@ -75,16 +78,16 @@ const documents = {
 
         Interview started at Sunday 14-1-2024 17:43
 
-        Officer: How do you know Rebecca?
+        **Officer:** How do you know Rebecca?
 
-        Robinson: We have been friends since college. Did every project together
+        **Robinson:** We have been friends since college. Did every project together
 
-        Officer: Can you recount what happened exactly on Sunday?
+        **Officer:** Can you recount what happened exactly on Sunday?
 
-        Robinson: I was here around 10:30, I live just around the corner. Red and his family where planning to
+        **Robinson:** I was here around 10:30, I live just around the corner. Red and his family where planning to
         load the truck and I was waiting at the destination to help unload. I live nearby.
 
-        I had to wait till nearly 11 before Red arrived to let me in. After we unloaded the truck, I was just unpacking
+        **Robinson:**I had to wait till nearly 11 before Red arrived to let me in. After we unloaded the truck, I was just unpacking
         unpacking some equipment for what would be the office area for the startup. 
     `,
     "Judy Woolridge": unindent`
@@ -94,21 +97,21 @@ const documents = {
 
         Interview started at Sunday 14-1-2024 18:03
 
-        Officer: How do you know Rebecca?
+        **Officer:** How do you know Rebecca?
 
-        Woolridge: We go way back to elementary school, so we've been friends for
+        **Woolridge:** We go way back to elementary school, so we've been friends for
         at least 18 years, and since I'm only 23 that's a long time.
 
-        Officer: It says here you come from Boxon, it's a long way away
+        **Officer:** It says here you come from Boxon, it's a long way away
 
-        Woolridge: Duncan can't drive, so he needed someone to bring him here.
+        **Woolridge:** Duncan can't drive, so he needed someone to bring him here.
         Won't say no to a chance to visit the city. I'm not doing much with my
         life right now so if an opportunity to help someone out comes along I'm
         always happy to take it.
 
-        Officer: Can you recount exactly what happened today?
+        **Officer:** Can you recount exactly what happened today?
 
-        Woolridge: Well nothing really special happened, we loaded the truck, unloaded the truck, I brought the truck back to the shop,
+        **Woolridge:** Well nothing really special happened, we loaded the truck, unloaded the truck, I brought the truck back to the shop,
         then when I came back I found bits of wood scattered across the whole lawn and right in the middle of it the wreck
         of a large closet. Nobody was around, I found Rufus and he was the one that noticed the blood.
     `,
@@ -119,42 +122,42 @@ const documents = {
 
         Interview started at Sunday 14-1-2024 17:04
 
-        Officer: How do you know Rebecca?
+        **Officer:** How do you know Rebecca?
 
-        Moss: We had been dating for 6 months
+        **Moss:** We had been dating for 6 months
 
-        Officer: Can you recount what happened today?
+        **Officer:** Can you recount what happened today?
 
-        Moss: Everyone was acting super odd from the start. They where all still mad at each other from last night I guess
+        **Moss:** Everyone was acting super odd from the start. They where all still mad at each other from last night I guess
         First Judy and Rufus arrived together. Judy was sleeping on the couch in the old appartment the night before
         but didn't show up Saturday night, I guess they where together.
 
-        Moss: We loaded the truck mostly in silence, drove to the new place. Dianna was already there. We barely unloaded the
+        **Moss:** We loaded the truck mostly in silence, drove to the new place. Dianna was already there. We barely unloaded the
         truck before Judy drove off in it. Guess the whole situation was too uncomfortable for her too. Dianna and Rufus
         seemed to purposefully avoid each other, carefully looking if the other wasn't there before coming to the entrance
         and picking up stuff.
 
-        Moss: I realized we didn't have any soap or toilet paper yet, so I walked to the store to get some. It's just a few
+        **Moss:** I realized we didn't have any soap or toilet paper yet, so I walked to the store to get some. It's just a few
         minutes away. When I came back I found her. Everyone was right there not doing anything, like they didn't even care.
         I called an ambulance. 
 
-        Officer: What happened Saturday night that made everyone so mad?
+        **Officer:** What happened Saturday night that made everyone so mad?
 
-        Moss: So emotions where tense from the very start. Which makes sense considering the grief. Seemed Rufus felt
+        **Moss:** So emotions where tense from the very start. Which makes sense considering the grief. Seemed Rufus felt
         Rebecca didn't care enough, but she just shows her emotions in a different way. Surely her brother would know that?
 
-        Moss: I don't know what exactly happened Saturday. We where all going to get dinner together at that indian place,
+        **Moss:** I don't know what exactly happened Saturday. We where all going to get dinner together at that indian place,
         I was a bit late. I work part time on Saturdays. Something had happened. Rufus and Judy where yelling at Rebecca and Dianna. Dianna
         was also yelling. Made quite a scene.
 
-        Moss: Judy announced she and Rufus where leaving and basically dragged him with her. Dianna also left.
+        **Moss:** Judy announced she and Rufus where leaving and basically dragged him with her. Dianna also left.
         Just me and Rebecca where left and we had dinner with just the
         two of us.
 
-        Moss: Rebecca refused to tell me what it was about. She was clearly shaken though. She said she wondered if she did
+        **Moss:** Rebecca refused to tell me what it was about. She was clearly shaken though. She said she wondered if she did
         the right thing but wouldn't tell me what the thing was.
 
-        Moss: One of them is responsible for sure. They let their emotions get the better of them.
+        **Moss:** One of them is responsible for sure. They let their emotions get the better of them.
         `,
   },
   "victim's laptop": {
@@ -396,7 +399,12 @@ const startGame = () => {
       const element = document.createElement("div");
       element.classList.add("menu-item");
       element.dataset.name = key;
-      element.textContent = key;
+
+      const content = document.createElement('div');
+      content.classList.add('menu-item-content');
+      content.textContent = key;
+
+      element.appendChild(content);
 
       if (key == "questions") {
         element.classList.add("menu-item-questions");
@@ -521,7 +529,8 @@ const startGame = () => {
       createQuestions(new_state, index + 1);
     } else if (typeof new_state === "string") {
       const div = createEvidenceContainer(root);
-      div.textContent = new_state;
+      const text_html = md.render(new_state)
+      div.innerHTML = text_html;
     } else {
       createMenu(new_state, index + 1);
     }

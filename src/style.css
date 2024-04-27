@@ -17,7 +17,7 @@ body {
 }
 
 .menu-item.selected {
-  background-color: #333;
+  background-color: #555;
 }
 
 .menu {
@@ -25,20 +25,33 @@ body {
   margin-right: 0.5rem;
 }
 
+.menu-item:before {
+  width: 3.25rem;
+  border-left: 1px solid white;
+  flex-shrink: 0;
+}
+
 .menu-item.menu-item-folder::before {
-  content: "├📁";
+  content: "ￚ 📁";
 }
 
 .menu-item.menu-item-evidence::before {
-  content: "├📄";
+  content: "ￚ 📄";
 }
 
 .menu-item.menu-item-questions::before {
-  content: "├❓";
+  content: "ￚ ❓";
+}
+
+.menu-item-content {
+  flex-grow: 1;
+  line-height: 1.5rem;
+  padding: 0.25rem 0;
 }
 
 .menu-item {
   cursor: pointer;
+  display: flex;
 }
 
 .menu-item:hover {
@@ -55,7 +68,6 @@ body {
   border: 1px solid #ddd;
   padding: 1rem;
   min-height: 40rem;
-  white-space: pre-wrap;
 }
 
 select {
