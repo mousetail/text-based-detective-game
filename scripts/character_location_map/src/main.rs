@@ -13,45 +13,45 @@ const MIDDLE_BAR_WIDTH: usize = 320;
 const RIGHT_BAR_WIDTH: usize = 320;
 const MIN_COLUMN_WIDTH: usize = 4;
 
-#[derive(Clone, Debug, Eq, PartialEq, Hash)]
-struct Character{name: String}
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+struct Character<'a>{name: &'a str}
 
-#[derive(Clone, Debug, Eq, PartialEq, Hash)]
-struct Location{name: String}
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+struct Location<'a>{name: &'a str}
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-struct Action{
-    characters: Vec<Character>,
-    name: String
+struct Action<'a>{
+    characters: Vec<Character<'a>>,
+    name: &'a str
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-struct Movement{
-    characters: Vec<Character>,
-    to: Location
+struct Movement<'a>{
+    characters: Vec<Character<'a>>,
+    to: Location<'a>
 }
 
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-struct Time {
-    time: String
+struct Time<'a> {
+    time: &'a str
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-enum Event {
-    Action(Action),
-    Movement(Movement),
-    time(Time)
+enum Event<'a> {
+    Action(Action<'a>),
+    Movement(Movement<'a>),
+    time(Time<'a>)
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-struct Scene {
-    locations: Vec<Location>,
-    characters: Vec<Character>,
-    events: Vec<Event>
+struct Scene<'a> {
+    locations: Vec<Location<'a>>,
+    characters: Vec<Character<'a>>,
+    events: Vec<Event<'a>>
 }
 
-type Story = Vec<Scene>;
+type Story<'a> = Vec<Scene<'a>>;
 
 fn generate_svg(story: Story) {
     let mut y = 0;
@@ -134,7 +134,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
         shapes.push(
             SvgElement::Text { color: svg::Color(
                 "black"
-            ), position: svg::Vector{x: LEFT_BAR_WIDTH + x * HORIZONTAL_SPACING, y: *y}, content: location.name.clone() }
+            ), position: svg::Vector{x: LEFT_BAR_WIDTH + x * HORIZONTAL_SPACING, y: *y}, content: location.name.to_string() }
         );
         x+=location_widths.get(&location).unwrap_or(&0);
     }
@@ -213,46 +213,46 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
 }
 
 fn main() {
-    let rufus_red = Character{name:"Rufus Red".to_string()};   
-    let dianna_robinson = Character{name:"Dianna Robinson".to_string()};
-    let judy_woolridge = Character{name:"Judy Woolridge".to_string()};
-    let duncan_moss = Character{name: "Duncan Moss".to_string()};
-    let rebecca_red = Character{name: "Rebecca Red".to_string()};
+    let rufus_red = Character{name:"Rufus Red"};   
+    let dianna_robinson = Character{name:"Dianna Robinson"};
+    let judy_woolridge = Character{name:"Judy Woolridge"};
+    let duncan_moss = Character{name: "Duncan Moss"};
+    let rebecca_red = Character{name: "Rebecca Red"};
 
-    let dining_room = Location{name: "Dining Room".to_string()};
-    let garage = Location{name: "Garage".to_string()};
+    let dining_room = Location{name: "Dining Room"};
+    let garage = Location{name: "Garage"};
 
     generate_svg(vec![
         Scene{
             locations: vec![
-                dining_room.clone(),
-                garage.clone()
+                dining_room,
+                garage
             ],
             characters: vec![
-                rufus_red.clone(),
-                dianna_robinson.clone()
+                rufus_red,
+                dianna_robinson
             ],
             events: vec![
 
             Event::Movement(Movement{
-                characters: vec![rufus_red.clone()],
+                characters: vec![rufus_red],
                 to: dining_room.clone()
             }),
             Event::Action(Action{
-                characters: vec![rufus_red.clone()],
-                name: "Rufus finds the note".to_string()
+                characters: vec![rufus_red],
+                name: "Rufus finds the note"
             }),
             Event::Movement(Movement{
-                characters: vec![rufus_red.clone(), dianna_robinson.clone()],
+                characters: vec![rufus_red, dianna_robinson],
                 to: garage.clone()
             }),
             Event::Action(Action{
-                characters: vec![rufus_red.clone(), dianna_robinson.clone()],
-                name: "Dianna and Rufus Argue".to_string()
+                characters: vec![rufus_red, dianna_robinson],
+                name: "Dianna and Rufus Argue"
             }),
             Event::Movement(Movement{
-                characters: vec![rufus_red.clone(), dianna_robinson.clone()],
-                to: dining_room.clone()
+                characters: vec![rufus_red, dianna_robinson],
+                to: dining_room
             })
             ]
         },
