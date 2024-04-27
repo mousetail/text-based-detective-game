@@ -2,3 +2,5 @@ dist
 node_modules
 .parcel-cache
 .vscode
+scripts/character_location_map/out.svg
+scripts/character_location_map/target
