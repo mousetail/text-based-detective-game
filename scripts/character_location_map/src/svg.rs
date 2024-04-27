@@ -2,7 +2,7 @@ use std::fs::OpenOptions;
 use std::io::Write;
 
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq, Copy)]
 pub struct Color(pub &'static str);
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
@@ -14,7 +14,7 @@ pub struct Vector{
 pub enum SvgElement {
     Circle{color: Color, position: Vector},
     Curve{color: Color, points: Vec<Vector>},
-    Line{color: Color, points: Vec<Vector>},
+    Line{color: Color, points: Vec<Vector>, dash_array: Vec<usize>},
     Text{color: Color, position: Vector, content: String}
 }
 
@@ -69,10 +69,10 @@ impl Svg {
                         file, r#""/>"#
                     )?;
                 },
-                SvgElement::Line { color, points } => {
+                SvgElement::Line { color, points, dash_array } => {
                     write!(file, r#"
-                        <path stroke="{color}" stroke-width="2" fill="transparent" d="
-                    "#, color=xml::escape::escape_str_attribute(&color.0))?;
+                        <path stroke="{color}" stroke-width="2" fill="transparent" stroke-dasharray="{dash_array}" d="
+                    "#, color=xml::escape::escape_str_attribute(&color.0), dash_array=dash_array.iter().map(|k|format!("{k} ")).collect::<String>())?;
 
                     if let Some((first, rest)) = points.split_first(){
                         write!(
