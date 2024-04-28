@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+use xml::common::Position;
+
 use crate::{Character, Location, Movement, Scene, MIN_COLUMN_WIDTH};
 
 pub fn get_people_per_location<'a>(
@@ -57,20 +59,43 @@ pub fn get_character_positions_by_time<'a>(
     location_widths: &HashMap<Location<'a>, usize>,
 ) -> Vec<HashMap<Character<'a>, usize>> {
     let mut character_positions_by_time: Vec<HashMap<Character, usize>> = vec![];
+
+    let mut previous_character_positions_by_time: HashMap<Character, usize> = HashMap::new();
     for people_per_location in people_per_location {
         let mut out = std::collections::HashMap::new();
-        let mut x = 0;
         let mut location_start_x = 0;
         for location in &scene.locations {
+            let location_width = *location_widths.get(location).unwrap_or(&0);
+
             if let Some(people) = people_per_location.get(location) {
-                for person in people {
-                    out.insert(person.clone(), x);
-                    x += 1;
+                // Try to keep characters in the same place as much as possible
+                let people_with_positions: Vec<_> = people.iter().map(
+                    |person|(person, previous_character_positions_by_time
+                    .get(person)
+                    .and_then(|&k| {
+                        (k >= location_start_x && k < location_start_x + location_width)
+                            .then_some(k)
+                    }))
+                ).collect();
+
+                for (person, position) in &people_with_positions {
+                    if let Some(postion) = position
+                    {
+                        out.insert((*person).clone(), *postion);
+                    }
+                }
+
+                for (person, position) in &people_with_positions {
+                    if let None = position {
+                        out.insert((*person).clone(), (location_start_x..location_start_x + location_width).find(
+                            |&w|out.values().all(|&v|v!=w)
+                        ).unwrap());
+                    }
                 }
             }
-            x = location_widths.get(location).unwrap_or(&0) + location_start_x;
-            location_start_x = x;
+            location_start_x += location_width;
         }
+        previous_character_positions_by_time = out.clone();
         character_positions_by_time.push(out);
     }
 
