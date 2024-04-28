@@ -3,10 +3,11 @@ use std::{collections::HashMap, fs::OpenOptions};
 use styles::*;
 use svg::{Color, LineStyle, SvgElement, TextStyle};
 
-use crate::svg::Vector;
+use crate::{scene_metadata_calculations::{get_character_positions_by_time, get_location_widths, get_people_per_location}, svg::Vector};
 
 mod styles;
 mod svg;
+mod scene_metadata_calculations;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 struct Character<'a> {
@@ -70,66 +71,10 @@ fn generate_svg(story: Story) {
 
 fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
     // first, find the people in each location
-    let mut people_per_location: Vec<std::collections::HashMap<Location, Vec<Character>>> =
-        (0..scene.events.len()).map(|_| HashMap::new()).collect();
 
-    let mut previous_people_per_location: std::collections::HashMap<Location, Vec<Character>> =
-        HashMap::new();
-    for (people, event) in people_per_location.iter_mut().zip(scene.events.iter()) {
-        for Movement { characters, to } in &event.movement {
-            for character in characters {
-                previous_people_per_location
-                    .values_mut()
-                    .for_each(|value| value.retain(|c2| c2 != character));
-            }
-
-            if let Some(destination) = to {
-                previous_people_per_location
-                    .entry(*destination)
-                    .or_insert(vec![])
-                    .extend(characters.iter().cloned());
-            }
-        }
-
-        *people = previous_people_per_location.clone();
-    }
-
-    println!("{people_per_location:#?}");
-
-    let mut location_widths = std::collections::HashMap::<Location, usize>::new();
-    for location in &scene.locations {
-        location_widths.insert(
-            location.clone(),
-            people_per_location
-                .iter()
-                .map(|k| k.get(&location).map_or(0, |t| t.len()))
-                .max()
-                .unwrap_or(0)
-                .max(MIN_COLUMN_WIDTH),
-        );
-    }
-
-    println!("{location_widths:#?}");
-
-    let mut character_positions_by_time: Vec<HashMap<Character, usize>> = vec![];
-    for people_per_location in people_per_location {
-        let mut out = std::collections::HashMap::new();
-        let mut x = 0;
-        let mut location_start_x = 0;
-        for location in &scene.locations {
-            if let Some(people) = people_per_location.get(location) {
-                for person in people {
-                    out.insert(person.clone(), x);
-                    x += 1;
-                }
-            }
-            x = location_widths.get(location).unwrap_or(&0) + location_start_x;
-            location_start_x = x;
-        }
-        character_positions_by_time.push(out);
-    }
-
-    println!("{character_positions_by_time:#?}");
+    let people_per_location = get_people_per_location(&scene);
+    let location_widths = get_location_widths(&scene, &people_per_location);
+    let character_positions_by_time = get_character_positions_by_time(&scene, &people_per_location, &location_widths);
 
     let mut shapes: Vec<SvgElement> = vec![];
 
@@ -250,6 +195,20 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
         }
     }
 
+    for (index, event) in (&scene.events).iter().enumerate() {
+        if let Some(time) = event.time {
+            shapes.push(SvgElement::Text {
+                color: TIME_TEXT_COLOR,
+                position: Vector {
+                    x: LEFT_BAR_WIDTH - HORIZONTAL_SPACING / 2,
+                    y: *y + index * VERTICAL_SPACING,
+                },
+                content: time.to_string(),
+                style: TIME_TEXT_STYLE,
+            })
+        }
+    }
+
     *y += scene.events.len() * VERTICAL_SPACING;
 
     return shapes;
@@ -285,7 +244,7 @@ fn main() {
                     to: Some(dining_room),
                 }],
                 action: None,
-                time: None,
+                time: Some("14:00"),
             },
             Event {
                 action: Some(Action {
