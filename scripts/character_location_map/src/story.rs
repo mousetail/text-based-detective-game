@@ -25,11 +25,13 @@ pub fn get_story() -> Vec<Scene<'static>> {
     let hotel = Location { name: "Hotel" };
     let other = Location { name: "Other" };
 
-    let yard = Location {name: "Yard"};
-    let living_room = Location {name: "Living Room"};
-    let garage = Location {name: "Garage"};
-    let basement = Location {name: "Basement"};
-    let attic = Location {name: "Attic"};
+    let yard = Location { name: "Yard" };
+    let living_room = Location {
+        name: "Living Room",
+    };
+    let garage = Location { name: "Garage" };
+    let basement = Location { name: "Basement" };
+    let attic = Location { name: "Attic" };
 
     return vec![
         Scene {
@@ -324,13 +326,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
             ],
         },
         Scene {
-            locations: vec![
-                yard,
-                living_room,
-                garage,
-                basement,
-                attic,
-                ],
+            locations: vec![yard, living_room, garage, basement, attic],
             characters: vec![
                 rebecca_red,
                 dianna_robinson,
@@ -341,34 +337,27 @@ pub fn get_story() -> Vec<Scene<'static>> {
             events: vec![
                 Event {
                     time: Some("Sun, 14 Jan 2024, 10:30"),
-                    movement: vec![
-                        Movement {
-                            characters: vec![dianna_robinson],
-                            to: Some(yard)
-                        }
-                    ],
-                    action: None
-                },
-
-                Event {
-                    time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![duncan_moss, rebecca_red],
-                            to: Some(yard)
-                        }
-                    ],
-                    action: None
+                    movement: vec![Movement {
+                        characters: vec![dianna_robinson],
+                        to: Some(yard),
+                    }],
+                    action: None,
                 },
                 Event {
                     time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![judy_woolridge, rufus_red],
-                            to: Some(yard)
-                        }
-                    ],
-                    action: None
+                    movement: vec![Movement {
+                        characters: vec![duncan_moss, rebecca_red],
+                        to: Some(yard),
+                    }],
+                    action: None,
+                },
+                Event {
+                    time: None,
+                    movement: vec![Movement {
+                        characters: vec![judy_woolridge, rufus_red],
+                        to: Some(yard),
+                    }],
+                    action: None,
                 },
                 Event {
                     time: Some("Sun, 14 Jan 2024, 12:45"),
@@ -379,190 +368,156 @@ pub fn get_story() -> Vec<Scene<'static>> {
                             dianna_robinson,
                             rufus_red,
                             judy_woolridge,
-                            duncan_moss
-                            ],
-                            name: "Finish unloading truck"
-                    })
+                            duncan_moss,
+                        ],
+                        name: "Finish unloading truck",
+                    }),
                 },
-
                 Event {
                     time: None,
                     movement: vec![],
                     action: Some(Action {
-                        characters: vec![
-                            judy_woolridge,
-                            ],
-                            name: "Judy brings the truck back to the rental"
-                    })
+                        characters: vec![judy_woolridge],
+                        name: "Judy brings the truck back to the rental",
+                    }),
                 },
-
                 Event {
                     time: None,
                     movement: vec![
                         Movement {
                             characters: vec![judy_woolridge],
-                            to: None
+                            to: None,
                         },
                         Movement {
                             characters: vec![rufus_red],
-                            to: Some(basement)
+                            to: Some(basement),
                         },
                         Movement {
                             characters: vec![dianna_robinson],
-                            to: Some(garage)
+                            to: Some(garage),
                         },
                         Movement {
                             characters: vec![rebecca_red],
-                            to: Some(attic)
-                        }
+                            to: Some(attic),
+                        },
                     ],
-                    action: None
+                    action: None,
                 },
-
                 Event {
                     time: None,
-                    movement: vec![
-                    ],
+                    movement: vec![],
                     action: Some(Action {
                         characters: vec![duncan_moss],
-                        name: "Duncan goes to the store to buy toilet paper"
-                    })
+                        name: "Duncan goes to the store to buy toilet paper",
+                    }),
                 },
-
                 Event {
                     time: None,
                     movement: vec![
                         Movement {
                             characters: vec![judy_woolridge],
-                            to: Some(yard)
+                            to: Some(yard),
                         },
                         Movement {
                             characters: vec![duncan_moss],
-                            to: None
-                        }
-                    ],
-                    action: Some(Action {
-                        characters: vec![judy_woolridge],
-                        name: "Judy comes back"
-                    })
-                },
-
-                Event {
-                    time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![judy_woolridge],
-                            to: Some(living_room)
+                            to: None,
                         },
                     ],
                     action: Some(Action {
                         characters: vec![judy_woolridge],
-                        name: "Judy starts unpacking in the living room"
-                    })
+                        name: "Judy comes back",
+                    }),
                 },
-
                 Event {
                     time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![rufus_red],
-                            to: Some(living_room)
-                        }
-                    ],
+                    movement: vec![Movement {
+                        characters: vec![judy_woolridge],
+                        to: Some(living_room),
+                    }],
+                    action: Some(Action {
+                        characters: vec![judy_woolridge],
+                        name: "Judy starts unpacking in the living room",
+                    }),
+                },
+                Event {
+                    time: None,
+                    movement: vec![Movement {
+                        characters: vec![rufus_red],
+                        to: Some(living_room),
+                    }],
                     action: Some(Action {
                         characters: vec![rufus_red, judy_woolridge],
-                        name: "Rufus and Judy talk"
-                    })
-                },
-
-                Event {
-                    time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![rufus_red],
-                            to: Some(basement)
-                        }
-                    ],
-                    action: None
-                },
-
-                Event {
-                    time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![dianna_robinson],
-                            to: Some(yard)
-                        }
-                    ],
-                    action: None
-                },
-
-                Event {
-                    time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![judy_woolridge],
-                            to: Some(attic)
-                        }
-                    ],
-                    action: None
+                        name: "Rufus and Judy talk",
+                    }),
                 },
                 Event {
                     time: None,
-                    movement: vec![  
-                    ],
-                    action: Some(
-                        Action {
-                            characters: vec![judy_woolridge, rebecca_red],
-                            name: "Judy kills Rebecca"
-                        }
-                    )
+                    movement: vec![Movement {
+                        characters: vec![rufus_red],
+                        to: Some(basement),
+                    }],
+                    action: None,
                 },
-
                 Event {
                     time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![rebecca_red],
-                            to: None
-                        }
-                    ],
+                    movement: vec![Movement {
+                        characters: vec![dianna_robinson],
+                        to: Some(yard),
+                    }],
+                    action: None,
+                },
+                Event {
+                    time: None,
+                    movement: vec![Movement {
+                        characters: vec![judy_woolridge],
+                        to: Some(attic),
+                    }],
+                    action: None,
+                },
+                Event {
+                    time: None,
+                    movement: vec![],
+                    action: Some(Action {
+                        characters: vec![judy_woolridge, rebecca_red],
+                        name: "Judy kills Rebecca",
+                    }),
+                },
+                Event {
+                    time: None,
+                    movement: vec![Movement {
+                        characters: vec![rebecca_red],
+                        to: None,
+                    }],
                     action: Some(Action {
                         characters: vec![dianna_robinson],
-                        name: "Dianna finds the body"
-                    })
+                        name: "Dianna finds the body",
+                    }),
                 },
                 Event {
                     time: None,
-                    movement: vec![  
-                        Movement {
-                            characters: vec![rufus_red, judy_woolridge],
-                            to: Some(yard)
-                        },
-                    ],
-                    action: None
+                    movement: vec![Movement {
+                        characters: vec![rufus_red, judy_woolridge],
+                        to: Some(yard),
+                    }],
+                    action: None,
                 },
                 Event {
                     time: None,
-                    movement: vec![  
-                        Movement {
-                            characters: vec![duncan_moss],
-                            to: Some(yard)
-                        },
-                    ],
-                    action: None
+                    movement: vec![Movement {
+                        characters: vec![duncan_moss],
+                        to: Some(yard),
+                    }],
+                    action: None,
                 },
-
                 Event {
                     time: None,
-                    movement: vec![  
-                    ],
+                    movement: vec![],
                     action: Some(Action {
                         characters: vec![duncan_moss],
-                        name: "DUncan calls an ambulance"
-                    })
-                }
-            ]
+                        name: "DUncan calls an ambulance",
+                    }),
+                },
+            ],
         },
     ];
 }

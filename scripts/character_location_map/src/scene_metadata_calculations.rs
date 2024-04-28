@@ -1,7 +1,5 @@
 use std::collections::HashMap;
 
-use xml::common::Position;
-
 use crate::{Character, Location, Movement, Scene, MIN_COLUMN_WIDTH};
 
 pub fn get_people_per_location<'a>(
@@ -69,27 +67,35 @@ pub fn get_character_positions_by_time<'a>(
 
             if let Some(people) = people_per_location.get(location) {
                 // Try to keep characters in the same place as much as possible
-                let people_with_positions: Vec<_> = people.iter().map(
-                    |person|(person, previous_character_positions_by_time
-                    .get(person)
-                    .and_then(|&k| {
-                        (k >= location_start_x && k < location_start_x + location_width)
-                            .then_some(k)
-                    }))
-                ).collect();
+                let people_with_positions: Vec<_> = people
+                    .iter()
+                    .map(|person| {
+                        (
+                            person,
+                            previous_character_positions_by_time
+                                .get(person)
+                                .and_then(|&k| {
+                                    (k >= location_start_x && k < location_start_x + location_width)
+                                        .then_some(k)
+                                }),
+                        )
+                    })
+                    .collect();
 
                 for (person, position) in &people_with_positions {
-                    if let Some(postion) = position
-                    {
+                    if let Some(postion) = position {
                         out.insert((*person).clone(), *postion);
                     }
                 }
 
                 for (person, position) in &people_with_positions {
                     if let None = position {
-                        out.insert((*person).clone(), (location_start_x..location_start_x + location_width).find(
-                            |&w|out.values().all(|&v|v!=w)
-                        ).unwrap());
+                        out.insert(
+                            (*person).clone(),
+                            (location_start_x..location_start_x + location_width)
+                                .find(|&w| out.values().all(|&v| v != w))
+                                .unwrap(),
+                        );
                     }
                 }
             }
