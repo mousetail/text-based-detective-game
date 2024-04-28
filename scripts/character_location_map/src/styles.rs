@@ -32,7 +32,7 @@ pub const LOCATION_HEADER_TEXT_STYLE: TextStyle = TextStyle {
 pub const EVENT_NAME_TEXT_STYLE: TextStyle = TextStyle {
     align: TextAlign::Left,
     size: 12,
-    vertical_align: TextVerticalAlign::Baseline,
+    vertical_align: TextVerticalAlign::Middle,
 };
 
 pub const LOCATION_SEPERATOR_LINE_STYLE: LineStyle = LineStyle {
@@ -49,4 +49,10 @@ pub const TIME_TEXT_STYLE: TextStyle = TextStyle {
     align: TextAlign::Right,
     size: 12,
     vertical_align: TextVerticalAlign::Baseline,
+};
+
+pub const CHARACTER_NAME_TEXT_TYLE: TextStyle = TextStyle {
+    align: TextAlign::Left,
+    size: 12,
+    vertical_align: TextVerticalAlign::Middle
 };

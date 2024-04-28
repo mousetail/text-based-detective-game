@@ -64,14 +64,14 @@ impl Display for TextAlign {
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum TextVerticalAlign {
-    Top,
+    Middle,
     Baseline,
 }
 
 impl Display for TextVerticalAlign {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            TextVerticalAlign::Top => write!(f, "hanging"),
+            TextVerticalAlign::Middle => write!(f, "middle"),
             TextVerticalAlign::Baseline => write!(f, "alphabetic"),
         }
     }

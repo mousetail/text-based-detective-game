@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use scene_metadata_calculations::get_character_introduction_times;
 use story::get_story;
 use styles::*;
 use svg::SvgElement;
@@ -69,7 +70,7 @@ fn generate_svg(story: Story) {
 
     svg::Svg {
         width: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH + RIGHT_BAR_WIDTH,
-        height: y,
+        height: y + VERTICAL_SPACING / 2,
         elements,
     }
     .write("out.svg".to_string())
@@ -83,10 +84,14 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
     let location_widths = get_location_widths(&scene, &people_per_location);
     let character_positions_by_time =
         get_character_positions_by_time(&scene, &people_per_location, &location_widths);
+    let (event_times, character_introduciton_times) = get_character_introduction_times(&people_per_location);
+    let last_event_time = event_times[scene.events.len() - 1];
 
     let mut shapes: Vec<SvgElement> = vec![];
 
     let mut x = 0;
+
+    let middle_bar_width: usize = location_widths.values().cloned().sum::<usize>() * HORIZONTAL_SPACING;
 
     *y += VERTICAL_SPACING;
     for location in scene.locations {
@@ -113,16 +118,17 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
                 },
                 svg::Vector {
                     x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH - HORIZONTAL_SPACING / 2,
-                    y: *y + VERTICAL_SPACING * character_positions_by_time.len(),
+                    y: *y + VERTICAL_SPACING * last_event_time + VERTICAL_SPACING,
                 },
             ],
         })
     }
     *y += VERTICAL_SPACING;
 
-    for (person, color) in (&scene.characters).iter().zip(CHARACTER_COLORS) {
+    for (person, color) in (&scene.characters).iter().zip(CHARACTER_COLORS.to_owned()) {
         let mut curves = vec![];
         let mut last_curve = vec![];
+        let mut first_appearence = true;
 
         for (index, time) in character_positions_by_time
             .iter()
@@ -130,32 +136,44 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
             .enumerate()
         {
             if let Some(x) = time.get(person) {
+                if first_appearence {
+                    first_appearence = false;
+                    shapes.push(SvgElement::Text { color, position: Vector {
+                        x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH + HORIZONTAL_SPACING / 2,
+                        y: character_introduciton_times.get(&person).unwrap() * VERTICAL_SPACING + *y
+                    }, content: person.name.to_owned(), style: CHARACTER_NAME_TEXT_TYLE });
+
+                    last_curve.push(Vector {x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH,
+                        y: character_introduciton_times.get(&person).unwrap() * VERTICAL_SPACING + *y
+                });
+                }
+
                 let new_point = svg::Vector {
                     x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH,
-                    y: index * VERTICAL_SPACING + *y,
+                    y: event_times[index] * VERTICAL_SPACING + *y,
                 };
-
-                if last_curve.len() == 0 {
-                    shapes.push(SvgElement::Circle {
-                        color: *color,
-                        position: new_point,
-                    });
-                }
                 last_curve.push(new_point);
             } else if last_curve.len() > 0 {
                 let last_curve = std::mem::replace(&mut last_curve, vec![]);
-                let last_point = last_curve.last().unwrap();
-                shapes.push(SvgElement::Circle {
-                    color: *color,
-                    position: *last_point,
-                });
                 curves.push(last_curve);
             }
         }
 
         for curve in curves {
+            shapes.push(SvgElement::Circle {
+                color,
+                position: curve[0],
+            });
+
+            if curve.len() > 1 {
+                shapes.push(SvgElement::Circle {
+                    color,
+                    position: curve[curve.len() - 1],
+                });
+            }
+
             shapes.push(SvgElement::Curve {
-                color: *color,
+                color,
                 points: curve,
             })
         }
@@ -166,8 +184,8 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
             shapes.push(SvgElement::Text {
                 color: EVENT_TEXT_COLOR,
                 position: Vector {
-                    x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH + HORIZONTAL_SPACING / 2,
-                    y: *y + index * VERTICAL_SPACING,
+                    x: LEFT_BAR_WIDTH + middle_bar_width + HORIZONTAL_SPACING / 2,
+                    y: *y + event_times[index] * VERTICAL_SPACING,
                 },
                 content: name.to_string(),
                 style: EVENT_NAME_TEXT_STYLE,
@@ -180,7 +198,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
                     color: EVENT_LINE_COLOR,
                     position: Vector {
                         x: character_x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH,
-                        y: *y + index * VERTICAL_SPACING,
+                        y: *y + event_times[index] * VERTICAL_SPACING,
                     },
                 });
                 min_x = Some(min_x.unwrap_or(character_x).min(character_x));
@@ -193,11 +211,11 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
                     points: vec![
                         Vector {
                             x: LEFT_BAR_WIDTH + min_x * HORIZONTAL_SPACING,
-                            y: *y + index * VERTICAL_SPACING,
+                            y: *y + event_times[index] * VERTICAL_SPACING,
                         },
                         Vector {
-                            x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH,
-                            y: *y + index * VERTICAL_SPACING,
+                            x: LEFT_BAR_WIDTH + middle_bar_width,
+                            y: *y + event_times[index] * VERTICAL_SPACING,
                         },
                     ],
                 });
@@ -211,7 +229,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
                 color: TIME_TEXT_COLOR,
                 position: Vector {
                     x: LEFT_BAR_WIDTH - HORIZONTAL_SPACING / 2,
-                    y: *y + index * VERTICAL_SPACING,
+                    y: *y + event_times[index] * VERTICAL_SPACING,
                 },
                 content: time.to_string(),
                 style: TIME_TEXT_STYLE,
@@ -219,7 +237,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
         }
     }
 
-    *y += scene.events.len() * VERTICAL_SPACING;
+    *y += last_event_time * VERTICAL_SPACING;
 
     return shapes;
 }
