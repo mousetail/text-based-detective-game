@@ -84,14 +84,16 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
     let location_widths = get_location_widths(&scene, &people_per_location);
     let character_positions_by_time =
         get_character_positions_by_time(&scene, &people_per_location, &location_widths);
-    let (event_times, character_introduciton_times) = get_character_introduction_times(&people_per_location);
+    let (event_times, character_introduciton_times) =
+        get_character_introduction_times(&people_per_location);
     let last_event_time = event_times[scene.events.len() - 1];
 
     let mut shapes: Vec<SvgElement> = vec![];
 
     let mut x = 0;
 
-    let middle_bar_width: usize = location_widths.values().cloned().sum::<usize>() * HORIZONTAL_SPACING;
+    let middle_bar_width: usize =
+        location_widths.values().cloned().sum::<usize>() * HORIZONTAL_SPACING;
 
     *y += VERTICAL_SPACING;
     for location in scene.locations {
@@ -138,14 +140,23 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
             if let Some(x) = time.get(person) {
                 if first_appearence {
                     first_appearence = false;
-                    shapes.push(SvgElement::Text { color, position: Vector {
-                        x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH + HORIZONTAL_SPACING / 2,
-                        y: character_introduciton_times.get(&person).unwrap() * VERTICAL_SPACING + *y
-                    }, content: person.name.to_owned(), style: CHARACTER_NAME_TEXT_TYLE });
+                    shapes.push(SvgElement::Text {
+                        color,
+                        position: Vector {
+                            x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH + HORIZONTAL_SPACING / 2,
+                            y: character_introduciton_times.get(&person).unwrap()
+                                * VERTICAL_SPACING
+                                + *y,
+                        },
+                        content: person.name.to_owned(),
+                        style: CHARACTER_NAME_TEXT_TYLE,
+                    });
 
-                    last_curve.push(Vector {x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH,
-                        y: character_introduciton_times.get(&person).unwrap() * VERTICAL_SPACING + *y
-                });
+                    last_curve.push(Vector {
+                        x: x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH,
+                        y: character_introduciton_times.get(&person).unwrap() * VERTICAL_SPACING
+                            + *y,
+                    });
                 }
 
                 let new_point = svg::Vector {

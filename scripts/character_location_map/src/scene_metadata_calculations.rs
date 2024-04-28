@@ -1,4 +1,4 @@
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
 use crate::{Character, Location, Movement, Scene, MIN_COLUMN_WIDTH};
 
@@ -108,10 +108,9 @@ pub fn get_character_positions_by_time<'a>(
     return character_positions_by_time;
 }
 
-pub fn get_character_introduction_times<'a>(people_per_location: &Vec<HashMap<Location, Vec<Character<'a>>>>) -> (
-    Vec<usize>,
-    HashMap<Character<'a>, usize>
-) {
+pub fn get_character_introduction_times<'a>(
+    people_per_location: &Vec<HashMap<Location, Vec<Character<'a>>>>,
+) -> (Vec<usize>, HashMap<Character<'a>, usize>) {
     let mut event_times: Vec<usize> = vec![];
     let mut character_introduciton_times: HashMap<Character, usize> = HashMap::new();
 
@@ -120,11 +119,11 @@ pub fn get_character_introduction_times<'a>(people_per_location: &Vec<HashMap<Lo
         for person in people_at_time.values().cloned().flatten() {
             if !character_introduciton_times.contains_key(&person) {
                 character_introduciton_times.insert(person, y);
-                y+=1;
+                y += 1;
             }
         }
         event_times.push(y);
-        y+=1;
+        y += 1;
     }
 
     return (event_times, character_introduciton_times);

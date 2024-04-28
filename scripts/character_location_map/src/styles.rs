@@ -54,5 +54,5 @@ pub const TIME_TEXT_STYLE: TextStyle = TextStyle {
 pub const CHARACTER_NAME_TEXT_TYLE: TextStyle = TextStyle {
     align: TextAlign::Left,
     size: 12,
-    vertical_align: TextVerticalAlign::Middle
+    vertical_align: TextVerticalAlign::Middle,
 };
