@@ -1,12 +1,12 @@
 use std::{collections::HashMap, fs::OpenOptions};
 
-use svg::{Color, LineStyle, SvgElement, TextStyle};
 use styles::*;
+use svg::{Color, LineStyle, SvgElement, TextStyle};
 
 use crate::svg::Vector;
 
-mod svg;
 mod styles;
+mod svg;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 struct Character<'a> {
@@ -27,7 +27,7 @@ struct Action<'a> {
 #[derive(Clone, Debug, Eq, PartialEq)]
 struct Movement<'a> {
     characters: Vec<Character<'a>>,
-    to: Location<'a>,
+    to: Option<Location<'a>>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -36,10 +36,10 @@ struct Time<'a> {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-enum Event<'a> {
-    Action(Action<'a>),
-    Movement(Movement<'a>),
-    time(Time<'a>),
+struct Event<'a> {
+    action: Option<Action<'a>>,
+    time: Option<&'a str>,
+    movement: Vec<Movement<'a>>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -76,22 +76,20 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
     let mut previous_people_per_location: std::collections::HashMap<Location, Vec<Character>> =
         HashMap::new();
     for (people, event) in people_per_location.iter_mut().zip(scene.events.iter()) {
-        match event {
-            Event::Movement(Movement { characters, to }) => {
-                for character in characters {
-                    previous_people_per_location
-                        .values_mut()
-                        .for_each(|value| value.retain(|c2| c2 != character));
-                }
-
-                println!("Inserting {characters:?} into {to:?}");
+        for Movement { characters, to } in &event.movement {
+            for character in characters {
                 previous_people_per_location
-                    .entry(to.clone())
+                    .values_mut()
+                    .for_each(|value| value.retain(|c2| c2 != character));
+            }
+
+            if let Some(destination) = to {
+                previous_people_per_location
+                    .entry(*destination)
                     .or_insert(vec![])
                     .extend(characters.iter().cloned());
             }
-            _ => (),
-        };
+        }
 
         *people = previous_people_per_location.clone();
     }
@@ -142,7 +140,9 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
         shapes.push(SvgElement::Text {
             color: LOCATION_TITLE_TEXT_COLOR,
             position: svg::Vector {
-                x: LEFT_BAR_WIDTH + x * HORIZONTAL_SPACING + (location_widths.get(&location).unwrap_or(&1) - 1) * HORIZONTAL_SPACING / 2,
+                x: LEFT_BAR_WIDTH
+                    + x * HORIZONTAL_SPACING
+                    + (location_widths.get(&location).unwrap_or(&1) - 1) * HORIZONTAL_SPACING / 2,
                 y: *y,
             },
             content: location.name.to_string(),
@@ -209,48 +209,44 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
     }
 
     for (index, event) in (&scene.events).iter().enumerate() {
-        match event {
-            Event::Movement(_) => (),
-            Event::Action(Action { characters, name }) => {
-                shapes.push(SvgElement::Text {
-                    color: EVENT_TEXT_COLOR,
+        if let Some(Action { characters, name }) = &event.action {
+            shapes.push(SvgElement::Text {
+                color: EVENT_TEXT_COLOR,
+                position: Vector {
+                    x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH + HORIZONTAL_SPACING / 2,
+                    y: *y + index * VERTICAL_SPACING,
+                },
+                content: name.to_string(),
+                style: EVENT_NAME_TEXT_STYLE,
+            });
+
+            let mut min_x = usize::MAX;
+            for character in characters {
+                let character_x = *character_positions_by_time[index].get(character).unwrap();
+                shapes.push(SvgElement::Circle {
+                    color: EVENT_LINE_COLOR,
                     position: Vector {
-                        x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH + HORIZONTAL_SPACING / 2,
+                        x: character_x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH,
                         y: *y + index * VERTICAL_SPACING,
                     },
-                    content: name.to_string(),
-                    style: EVENT_NAME_TEXT_STYLE,
                 });
-
-                let mut min_x = usize::MAX;
-                for character in characters {
-                    let character_x = *character_positions_by_time[index].get(character).unwrap();
-                    shapes.push(SvgElement::Circle {
-                        color: EVENT_LINE_COLOR,
-                        position: Vector {
-                            x: character_x * HORIZONTAL_SPACING + LEFT_BAR_WIDTH,
-                            y: *y + index * VERTICAL_SPACING,
-                        },
-                    });
-                    min_x = min_x.min(character_x);
-                }
-
-                shapes.push(SvgElement::Line {
-                    color: EVENT_LINE_COLOR,
-                    style: EVENT_LINE_STYLE,
-                    points: vec![
-                        Vector {
-                            x: LEFT_BAR_WIDTH + min_x * HORIZONTAL_SPACING,
-                            y: *y + index * VERTICAL_SPACING,
-                        },
-                        Vector {
-                            x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH,
-                            y: *y + index * VERTICAL_SPACING,
-                        },
-                    ],
-                });
+                min_x = min_x.min(character_x);
             }
-            Event::time(_) => todo!(),
+
+            shapes.push(SvgElement::Line {
+                color: EVENT_LINE_COLOR,
+                style: EVENT_LINE_STYLE,
+                points: vec![
+                    Vector {
+                        x: LEFT_BAR_WIDTH + min_x * HORIZONTAL_SPACING,
+                        y: *y + index * VERTICAL_SPACING,
+                    },
+                    Vector {
+                        x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH,
+                        y: *y + index * VERTICAL_SPACING,
+                    },
+                ],
+            });
         }
     }
 
@@ -283,26 +279,46 @@ fn main() {
         locations: vec![dining_room, garage],
         characters: vec![rufus_red, dianna_robinson],
         events: vec![
-            Event::Movement(Movement {
-                characters: vec![rufus_red],
-                to: dining_room.clone(),
-            }),
-            Event::Action(Action {
-                characters: vec![rufus_red],
-                name: "Rufus finds the note",
-            }),
-            Event::Movement(Movement {
-                characters: vec![rufus_red, dianna_robinson],
-                to: garage.clone(),
-            }),
-            Event::Action(Action {
-                characters: vec![rufus_red, dianna_robinson],
-                name: "Dianna and Rufus Argue",
-            }),
-            Event::Movement(Movement {
-                characters: vec![rufus_red, dianna_robinson],
-                to: dining_room,
-            }),
+            Event {
+                movement: vec![Movement {
+                    characters: vec![rufus_red],
+                    to: Some(dining_room),
+                }],
+                action: None,
+                time: None,
+            },
+            Event {
+                action: Some(Action {
+                    characters: vec![rufus_red],
+                    name: "Rufus finds the note",
+                }),
+                movement: vec![],
+                time: None,
+            },
+            Event {
+                movement: vec![Movement {
+                    characters: vec![rufus_red, dianna_robinson],
+                    to: Some(garage),
+                }],
+                action: None,
+                time: None,
+            },
+            Event {
+                action: Some(Action {
+                    characters: vec![rufus_red, dianna_robinson],
+                    name: "Dianna and Rufus Argue",
+                }),
+                movement: vec![],
+                time: None,
+            },
+            Event {
+                movement: vec![Movement {
+                    characters: vec![rufus_red, dianna_robinson],
+                    to: Some(dining_room),
+                }],
+                action: None,
+                time: None,
+            },
         ],
     }]);
 }
