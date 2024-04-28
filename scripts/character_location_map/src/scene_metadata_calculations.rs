@@ -2,16 +2,13 @@ use std::collections::HashMap;
 
 use crate::{Character, Location, Movement, Scene, MIN_COLUMN_WIDTH};
 
-
-
 pub fn get_people_per_location<'a>(
     scene: &Scene<'a>,
 ) -> Vec<HashMap<Location<'a>, Vec<Character<'a>>>> {
     let mut people_per_location: Vec<HashMap<Location, Vec<Character>>> =
         (0..scene.events.len()).map(|_| HashMap::new()).collect();
 
-    let mut previous_people_per_location: HashMap<Location, Vec<Character>> =
-        HashMap::new();
+    let mut previous_people_per_location: HashMap<Location, Vec<Character>> = HashMap::new();
     for (people, event) in people_per_location.iter_mut().zip(scene.events.iter()) {
         for Movement { characters, to } in &event.movement {
             for character in characters {
@@ -34,7 +31,10 @@ pub fn get_people_per_location<'a>(
     return people_per_location;
 }
 
-pub fn get_location_widths<'a>(scene: &Scene<'a>, people_per_location: &Vec<HashMap<Location, Vec<Character>>>) -> HashMap<Location<'a>, usize> {
+pub fn get_location_widths<'a>(
+    scene: &Scene<'a>,
+    people_per_location: &Vec<HashMap<Location, Vec<Character>>>,
+) -> HashMap<Location<'a>, usize> {
     let mut location_widths = std::collections::HashMap::<Location, usize>::new();
     for location in &scene.locations {
         location_widths.insert(
@@ -51,8 +51,11 @@ pub fn get_location_widths<'a>(scene: &Scene<'a>, people_per_location: &Vec<Hash
     return location_widths;
 }
 
-pub fn get_character_positions_by_time<'a>(scene: &Scene<'a>, people_per_location: &Vec<HashMap<Location, Vec<Character<'a>>>>,
-location_widths: &HashMap<Location<'a>, usize>) -> Vec<HashMap<Character<'a>, usize>> {
+pub fn get_character_positions_by_time<'a>(
+    scene: &Scene<'a>,
+    people_per_location: &Vec<HashMap<Location, Vec<Character<'a>>>>,
+    location_widths: &HashMap<Location<'a>, usize>,
+) -> Vec<HashMap<Character<'a>, usize>> {
     let mut character_positions_by_time: Vec<HashMap<Character, usize>> = vec![];
     for people_per_location in people_per_location {
         let mut out = std::collections::HashMap::new();

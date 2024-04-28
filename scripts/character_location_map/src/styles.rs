@@ -2,9 +2,9 @@ use crate::svg::{Color, LineStyle, TextAlign, TextStyle, TextVerticalAlign};
 
 pub const HORIZONTAL_SPACING: usize = 32;
 pub const VERTICAL_SPACING: usize = 64;
-pub const LEFT_BAR_WIDTH: usize = 80;
-pub const MIDDLE_BAR_WIDTH: usize = 320;
-pub const RIGHT_BAR_WIDTH: usize = 320;
+pub const LEFT_BAR_WIDTH: usize = 220;
+pub const MIDDLE_BAR_WIDTH: usize = 620;
+pub const RIGHT_BAR_WIDTH: usize = 480;
 pub const MIN_COLUMN_WIDTH: usize = 4;
 
 pub const EVENT_LINE_COLOR: Color = Color("#222");
@@ -17,7 +17,7 @@ pub const CHARACTER_COLORS: &'static [Color] = &[
     Color("Red"),
     Color("Green"),
     Color("Blue"),
-    Color("pink"),
+    Color("#db7093"),
     Color("Purple"),
     Color("Yellow"),
     Color("Brown"),

@@ -1,13 +1,20 @@
-use std::{collections::HashMap};
+use std::collections::HashMap;
 
+use story::get_story;
 use styles::*;
-use svg::{SvgElement};
+use svg::SvgElement;
 
-use crate::{scene_metadata_calculations::{get_character_positions_by_time, get_location_widths, get_people_per_location}, svg::Vector};
+use crate::{
+    scene_metadata_calculations::{
+        get_character_positions_by_time, get_location_widths, get_people_per_location,
+    },
+    svg::Vector,
+};
 
+mod scene_metadata_calculations;
+mod story;
 mod styles;
 mod svg;
-mod scene_metadata_calculations;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 struct Character<'a> {
@@ -74,7 +81,8 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
 
     let people_per_location = get_people_per_location(&scene);
     let location_widths = get_location_widths(&scene, &people_per_location);
-    let character_positions_by_time = get_character_positions_by_time(&scene, &people_per_location, &location_widths);
+    let character_positions_by_time =
+        get_character_positions_by_time(&scene, &people_per_location, &location_widths);
 
     let mut shapes: Vec<SvgElement> = vec![];
 
@@ -165,7 +173,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
                 style: EVENT_NAME_TEXT_STYLE,
             });
 
-            let mut min_x = usize::MAX;
+            let mut min_x = None;
             for character in characters {
                 let character_x = *character_positions_by_time[index].get(character).unwrap();
                 shapes.push(SvgElement::Circle {
@@ -175,23 +183,25 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
                         y: *y + index * VERTICAL_SPACING,
                     },
                 });
-                min_x = min_x.min(character_x);
+                min_x = Some(min_x.unwrap_or(character_x).min(character_x));
             }
 
-            shapes.push(SvgElement::Line {
-                color: EVENT_LINE_COLOR,
-                style: EVENT_LINE_STYLE,
-                points: vec![
-                    Vector {
-                        x: LEFT_BAR_WIDTH + min_x * HORIZONTAL_SPACING,
-                        y: *y + index * VERTICAL_SPACING,
-                    },
-                    Vector {
-                        x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH,
-                        y: *y + index * VERTICAL_SPACING,
-                    },
-                ],
-            });
+            if let Some(min_x) = min_x {
+                shapes.push(SvgElement::Line {
+                    color: EVENT_LINE_COLOR,
+                    style: EVENT_LINE_STYLE,
+                    points: vec![
+                        Vector {
+                            x: LEFT_BAR_WIDTH + min_x * HORIZONTAL_SPACING,
+                            y: *y + index * VERTICAL_SPACING,
+                        },
+                        Vector {
+                            x: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH,
+                            y: *y + index * VERTICAL_SPACING,
+                        },
+                    ],
+                });
+            }
         }
     }
 
@@ -215,69 +225,5 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
 }
 
 fn main() {
-    let rufus_red = Character { name: "Rufus Red" };
-    let dianna_robinson = Character {
-        name: "Dianna Robinson",
-    };
-    let _judy_woolridge = Character {
-        name: "Judy Woolridge",
-    };
-    let _duncan_moss = Character {
-        name: "Duncan Moss",
-    };
-    let _rebecca_red = Character {
-        name: "Rebecca Red",
-    };
-
-    let dining_room = Location {
-        name: "Dining Room",
-    };
-    let garage = Location { name: "Garage" };
-
-    generate_svg(vec![Scene {
-        locations: vec![dining_room, garage],
-        characters: vec![rufus_red, dianna_robinson],
-        events: vec![
-            Event {
-                movement: vec![Movement {
-                    characters: vec![rufus_red],
-                    to: Some(dining_room),
-                }],
-                action: None,
-                time: Some("14:00"),
-            },
-            Event {
-                action: Some(Action {
-                    characters: vec![rufus_red],
-                    name: "Rufus finds the note",
-                }),
-                movement: vec![],
-                time: None,
-            },
-            Event {
-                movement: vec![Movement {
-                    characters: vec![rufus_red, dianna_robinson],
-                    to: Some(garage),
-                }],
-                action: None,
-                time: None,
-            },
-            Event {
-                action: Some(Action {
-                    characters: vec![rufus_red, dianna_robinson],
-                    name: "Dianna and Rufus Argue",
-                }),
-                movement: vec![],
-                time: None,
-            },
-            Event {
-                movement: vec![Movement {
-                    characters: vec![rufus_red, dianna_robinson],
-                    to: Some(dining_room),
-                }],
-                action: None,
-                time: None,
-            },
-        ],
-    }]);
+    generate_svg(get_story());
 }

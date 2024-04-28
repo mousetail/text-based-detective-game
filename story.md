@@ -23,14 +23,14 @@
 
 # Timeline
 
-- 6 Years ago - Red and Blue beet
+- 6 Years ago - Red and Blue meet
 - 6 Months ago - Red and blue develop the material science technique
 - 5 Months Ago - Blue gets expelled for plagarism
 - 4 Months Ago - A investor sees a early draft of the material science technique and offers Red funding to create a startup to further develop it. Blue is excluded because they are not part of the unviversity at this point
 - Over the next 4 months, Red works further on their Thesis while also working on the startup funding application. Blue is trying to prove their innoscence.
 - 6 Weeks ago - Startup funding approved - As encouraged by the buisness analyst they buy a building, both for use for the company and to live
-- 1 Week ago - Red and Green's Mother dies, delaying the move
-- 3 Days ago - Red and Green's Mother funeral, Red goes back to their hometown
+- 1 Week ago - Red and Green's Father dies, delaying the move
+- 3 Days ago - Red and Green's Father funeral, Red goes back to their hometown
 - 2 Days ago - Red, Green, (Orange?), and Yellow drive together back to Techville.
 - 1 Day ago - Red announces intention to sell their portion of the family buisness, against the will of Yellow and Green.
 - Locations 30 minutes before the Murder:
