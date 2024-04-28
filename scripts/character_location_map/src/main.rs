@@ -1,7 +1,7 @@
-use std::{collections::HashMap, fs::OpenOptions};
+use std::{collections::HashMap};
 
 use styles::*;
-use svg::{Color, LineStyle, SvgElement, TextStyle};
+use svg::{SvgElement};
 
 use crate::{scene_metadata_calculations::{get_character_positions_by_time, get_location_widths, get_people_per_location}, svg::Vector};
 
@@ -127,7 +127,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
                     y: index * VERTICAL_SPACING + *y,
                 };
 
-                if (last_curve.len() == 0) {
+                if last_curve.len() == 0 {
                     shapes.push(SvgElement::Circle {
                         color: *color,
                         position: new_point,
@@ -219,13 +219,13 @@ fn main() {
     let dianna_robinson = Character {
         name: "Dianna Robinson",
     };
-    let judy_woolridge = Character {
+    let _judy_woolridge = Character {
         name: "Judy Woolridge",
     };
-    let duncan_moss = Character {
+    let _duncan_moss = Character {
         name: "Duncan Moss",
     };
-    let rebecca_red = Character {
+    let _rebecca_red = Character {
         name: "Rebecca Red",
     };
 

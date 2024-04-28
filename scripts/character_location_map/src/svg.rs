@@ -85,7 +85,7 @@ pub struct TextStyle {
 }
 
 impl Svg {
-    pub fn write(&self, filename: String) -> std::io::Result<()> {
+    pub fn write(&self, _filename: String) -> std::io::Result<()> {
         println!("About to create file");
         let mut file = OpenOptions::new()
             .write(true)
