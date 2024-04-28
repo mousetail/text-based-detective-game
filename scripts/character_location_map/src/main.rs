@@ -1,55 +1,12 @@
 use std::{collections::HashMap, fs::OpenOptions};
 
 use svg::{Color, LineStyle, SvgElement, TextStyle};
+use styles::*;
 
 use crate::svg::Vector;
 
 mod svg;
-
-const HORIZONTAL_SPACING: usize = 32;
-const VERTICAL_SPACING: usize = 64;
-const LEFT_BAR_WIDTH: usize = 80;
-const MIDDLE_BAR_WIDTH: usize = 320;
-const RIGHT_BAR_WIDTH: usize = 320;
-const MIN_COLUMN_WIDTH: usize = 4;
-
-const EVENT_LINE_COLOR: svg::Color = Color("#222");
-const LOCATION_SEPERATOR_LINE_COLOR: Color = Color("#888");
-const LOCATION_TITLE_TEXT_COLOR: Color = Color("Black");
-const EVENT_TEXT_COLOR: Color = Color("Black");
-const TIME_TEXT_COLOR: Color = Color("Black");
-
-const CHARACTER_COLORS: &'static [Color] = &[
-    Color("Red"),
-    Color("Green"),
-    Color("Blue"),
-    Color("pink"),
-    Color("Purple"),
-    Color("Yellow"),
-    Color("Brown"),
-];
-
-const LOCATION_HEADER_TEXT_STYLE: TextStyle = TextStyle {
-    align: svg::TextAlign::Center,
-    size: 12,
-    vertical_align: svg::TextVerticalAlign::Baseline,
-};
-
-const EVENT_NAME_TEXT_STYLE: TextStyle = TextStyle {
-    align: svg::TextAlign::Left,
-    size: 12,
-    vertical_align: svg::TextVerticalAlign::Baseline,
-};
-
-const LOCATION_SEPERATOR_LINE_STYLE: LineStyle = LineStyle {
-    dash_array: &[8, 8],
-    width: 2,
-};
-
-const EVENT_LINE_STYLE: LineStyle = LineStyle {
-    dash_array: &[],
-    width: 2,
-};
+mod styles;
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 struct Character<'a> {
