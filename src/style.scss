@@ -101,3 +101,25 @@ button:hover {
 .success {
   color: green;
 }
+
+.sms {
+  display: flex;
+  margin-bottom: 1rem;;
+
+  .sms-photo {
+    width: 4rem;
+    height: 4rem;
+    flex-basis: 5rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  &.me .sms-content {
+    background-color: darkgreen;
+  }
+
+  .sms-content {
+    background-color: darkblue;
+    padding: 0.15rem 1rem;
+  }
+}

@@ -85,7 +85,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
     let character_positions_by_time =
         get_character_positions_by_time(&scene, &people_per_location, &location_widths);
     let (event_times, character_introduciton_times) =
-        get_character_introduction_times(&people_per_location);
+        get_character_introduction_times(&scene, &people_per_location);
     let last_event_time = event_times[scene.events.len() - 1];
 
     let mut shapes: Vec<SvgElement> = vec![];

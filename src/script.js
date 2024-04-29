@@ -1,5 +1,49 @@
 import markdownit from 'markdown-it';
-const md = markdownit();
+import { container } from "@mdit/plugin-container";
+
+function escapeHTML(str){
+  return new Option(str).innerHTML;
+}
+
+const md = markdownit().use(container, {
+  name: 'sms',
+  openRender: (tokens, index) => {
+    const token = tokens[index].info.trim().slice(4).trim().split(' ');
+
+    let me = false;
+    let image = '';
+    let name = '';
+
+    for (let word of token) {
+      if (word === '') {
+        continue;
+      } else if (word === 'me') {
+        me = true;
+      } else {
+        let [key, value] = word.split(':');
+
+        if (key === 'name') {
+          name= value;
+        } else if (key === 'image') {
+          image = value;
+        } else {
+          throw new Error("unexpected key "+key);
+        }
+      }
+    }
+
+    return `
+      <div class="sms ${me ? 'me': ''}">
+        <img class="sms-photo" src="${escapeHTML('/'+image+'.svg')}">
+        <div>
+          <div class="sms-author">${escapeHTML(name)}</div>
+          <div class="sms-content">
+    ` 
+  },
+  closeRender: (tokens) => {
+    return '</div></div></div>\n'
+  }
+});
 
 const unindent = ([s]) => {
   lines = s
@@ -272,74 +316,176 @@ const documents = {
     },
     messages: {
       D14nna: unindent`
-            - 19/12/2023 -
+            ### 19/12/2023
 
-            [Rebecca]: So I was talking to the guy from ABCD investments, they have approved our funding. Seems
+            ::: sms name:Rebecca image:rebecca_red me
+
+            So I was talking to the guy from ABCD investments, they have approved our funding. Seems
             our little toy project is going to become a reality.
 
-            [D14nna]: How that's amazing. What's the fine print though?
+            :::
 
-            [Rebecca]: They have a bunch of rules the company has to follow, stuff like keeping the accounting in
+            
+            ::: sms name:Dianna image:dianna_robinson
+
+            How that's amazing. What's the fine print though?
+
+            :::
+
+            
+            ::: sms name:Rebecca image:rebecca_red me
+
+            They have a bunch of rules the company has to follow, stuff like keeping the accounting in
             order and maintain reasonable professionalism.
 
-            [D14nna]: That's fantastic. 
+            :::
 
-            [Rebecca]: BTW did you finish your part for the advanced chemistry paper?
+            ::: sms name:Dianna image:dianna_robinson
+            
+            That's fantastic. 
 
-            - 20/12/2023 -
+            :::
 
-            [D14nna]: Did you turn in the final project?
+            ::: sms name:Dianna image:dianna_robinson
 
-            [Rebecca]: Oops nearly forgot. Ouch I see some sections are not filled in yet.
+            BTW did you finish your part for the advanced chemistry paper?
 
-            [D14nna]: Those where yours right? I know you are got some extra credits but I need to pass this or I'm
+            :::
+
+            ### 20/12/2023
+
+            ::: sms name:Dianna image:dianna_robinson
+
+            Did you turn in the final project?
+
+            :::
+
+            ::: sms name:Rebecca image:rebecca_red me
+
+            Oops nearly forgot. Ouch I see some sections are not filled in yet.
+
+            :::
+
+            
+            ::: sms name:Dianna image:dianna_robinson
+
+            Those where yours right? I know you are got some extra credits but I need to pass this or I'm
             not graduating next week.
 
-            [Rebecca]: Sorry, I'll try to fix it. Deadline is 12 right?
+            :::
 
-            [D14nna]: It's 11
+            ::: sms name:Rebecca image:rebecca_red me
 
-            [Rebecca]: Ah shit, I'll do my best. Sorry I totally forgot about it.
+            Sorry, I'll try to fix it. Deadline is 12 right?
+
+            :::
+
+            ::: sms name:Dianna image:dianna_robinson
+
+            It's 11
+
+            :::
+
+            ::: sms name:Rebecca image:rebecca_red me
+
+            Ah shit, I'll do my best. Sorry I totally forgot about it.
+
+            :::
         `,
       BikerBro: unindent`
-            - 4/1/2024 -
+            ### 4/1/2024
 
-            [BikerBro]: Please call me back when you read this
+            ::: sms name:Rufus image:rufus_red
 
-            - 10/1/2024 -
+            Please call me back when you read this
 
-            [BikerBro]: We need to discuss some things regarding the shop. I know
+            :::
+
+            ### 10/1/2024
+
+            ::: sms name:Rufus image:rufus_red
+
+            We need to discuss some things regarding the shop. I know
             you want to go soon after the funeral, so how about I come with you to
             Greenfield the next day, then we'll have plenty of time to discuss in person?
 
-            [BikerBro]: Besides I want to see your new place
+            :::
 
-            [Rebecca]: Sounds good, but I need to go back the same day for a meeting.
+            ::: sms name:Rufus image:rufus_red
 
-            [BikerBro]: So you are not even staying for the reception?
+            Besides I want to see your new place
 
-            [Rebecca]: I'm afraid not. I'm trying to graduate and get my startup off the
+            :::
+
+            
+            ::: sms name:Rebecca image:rebecca_red me
+
+            Sounds good, but I need to go back the same day for a meeting.
+
+            :::
+
+            ::: sms name:Rufus image:rufus_red
+            
+            So you are not even staying for the reception?
+
+            :::
+
+            ::: sms name:Rebecca image:rebecca_red me
+
+            I'm afraid not. I'm trying to graduate and get my startup off the
             ground. It's all really bad timing for me, I have to make some bad choices.
 
-            [BikerBro]: I think you need to reconsider your priorities. Are you sure you can't
+            :::
+
+            ::: sms name:Rufus image:rufus_red
+            
+            I think you need to reconsider your priorities. Are you sure you can't
             just stay one night?
 
-            [Rebecca]: I'm really sorry.
+            :::
 
-            [BikerBro]: How can I get to your place then?
+            
+            ::: sms name:Rebecca image:rebecca_red me
 
-            - 11/1/2024 -
+            I'm really sorry.
 
-            [Rebecca]: I asked Judy, she can can drive you
+            :::
 
-            [BikerBro]: Seriously?
+            ::: sms name:Rufus image:rufus_red
+            
+            How can I get to your place then?
+
+            :::
+
+            ### 11/1/2024
+
+
+            ::: sms name:Rebecca image:rebecca_red me
+
+            I asked Judy, she can can drive you
+
+            :::
+
+            ::: sms name:Rufus image:rufus_red
+
+            Seriously?
+
+            :::
         `,
       JuStar: unindent`
-            - 11/1/2024 -
+            ### 11/1/2024
 
-            [Rebecca]: Hi, want to meet up on the 12th? And maybe also bring Duncan if you are coming anyways ;)
+            ::: sms name:Rebecca image:rebecca_red me
+            
+            Hi, want to meet up on the 12th? And maybe also bring Rufus if you are coming anyways ;)
 
-            [JuStar]: Very subtle, but sure I'd like an excuse to meet you and especially Duncan again
+            :::
+
+            ::: sms name:Judy image:judy_goldridge
+
+            Very subtle, but sure I'd like an excuse to meet you and especially Rufus again
+
+            :::
         `,
     },
   },

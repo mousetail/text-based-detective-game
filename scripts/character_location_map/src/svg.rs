@@ -170,12 +170,8 @@ impl Svg {
                     if let Some((first, rest)) = points.split_first() {
                         write!(file, "M {} {} ", first.x, first.y)?;
 
-                        let mut previous = first;
-
                         for point in rest {
                             write!(file, "L {} {} ", point.x, point.y)?;
-
-                            previous = point;
                         }
                     }
 
@@ -194,12 +190,15 @@ impl Svg {
                               fill="{color}"
                               dominant-baseline="{dominant_baseline}"
                               text-anchor="{text_anchor}"
+                              font-family="sans-serif"
+                              font-size="{font_size}"
                         >{content}</text>
                     "#,
                     color = xml::escape::escape_str_attribute(&color.0),
                     content = xml::escape::escape_str_pcdata(&content),
                     dominant_baseline = style.vertical_align,
-                    text_anchor = style.align
+                    text_anchor = style.align,
+                    font_size = style.size
                 )?,
             }
         }

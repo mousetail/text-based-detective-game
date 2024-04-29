@@ -94,28 +94,11 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     }),
                 },
                 Event {
-                    time: Some("Oct 2023"),
-                    movement: vec![],
-                    action: Some(Action {
-                        characters: vec![dianna_robinson],
-                        name: "Dianna gets expelled for plagarism",
-                    }),
-                },
-                Event {
-                    time: None,
-                    movement: vec![],
-                    action: None,
-                },
-                Event {
                     time: None,
                     movement: vec![
                         Movement {
                             characters: vec![duncan_moss],
                             to: Some(greenfield),
-                        },
-                        Movement {
-                            characters: vec![dianna_robinson],
-                            to: None,
                         },
                     ],
                     action: Some(Action {
@@ -131,7 +114,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     }],
                     action: Some(Action {
                         characters: vec![rufus_red, judy_woolridge],
-                        name: "Judy and Rufus break us",
+                        name: "Judy and Rufus break up",
                     }),
                 },
                 Event {
@@ -140,6 +123,14 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     action: Some(Action {
                         characters: vec![rebecca_red],
                         name: "Investors contact Rebecca about funding the research",
+                    }),
+                },
+                Event {
+                    time: Some("Dec 2023"),
+                    movement: vec![],
+                    action: Some(Action {
+                        characters: vec![dianna_robinson],
+                        name: "Dianna gets expelled for plagarism",
                     }),
                 },
                 Event {
@@ -285,7 +276,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     }],
                     action: Some(Action {
                         characters: vec![judy_woolridge, rufus_red],
-                        name: "Rufus drags Judy away",
+                        name: "Judy drags Rufus away",
                     }),
                 },
                 Event {
@@ -514,7 +505,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     movement: vec![],
                     action: Some(Action {
                         characters: vec![duncan_moss],
-                        name: "DUncan calls an ambulance",
+                        name: "Duncan calls an ambulance",
                     }),
                 },
             ],

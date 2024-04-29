@@ -109,17 +109,28 @@ pub fn get_character_positions_by_time<'a>(
 }
 
 pub fn get_character_introduction_times<'a>(
+    scene: &Scene<'a>,
     people_per_location: &Vec<HashMap<Location, Vec<Character<'a>>>>,
 ) -> (Vec<usize>, HashMap<Character<'a>, usize>) {
     let mut event_times: Vec<usize> = vec![];
     let mut character_introduciton_times: HashMap<Character, usize> = HashMap::new();
 
     let mut y = 0;
-    for people_at_time in people_per_location {
+    for (people_at_time, event) in people_per_location.into_iter().zip(&scene.events) {
+        if event.movement.len() > 0 {
+            y+=1;
+        }
+
+        let mut new_person_index = 0;
         for person in people_at_time.values().cloned().flatten() {
             if !character_introduciton_times.contains_key(&person) {
+
+            if new_person_index == 0 {
+                y-=1;
+            }
                 character_introduciton_times.insert(person, y);
                 y += 1;
+                new_person_index +=1;
             }
         }
         event_times.push(y);

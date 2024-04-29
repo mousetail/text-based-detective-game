@@ -1,11 +1,11 @@
 use crate::svg::{Color, LineStyle, TextAlign, TextStyle, TextVerticalAlign};
 
 pub const HORIZONTAL_SPACING: usize = 32;
-pub const VERTICAL_SPACING: usize = 64;
+pub const VERTICAL_SPACING: usize = 32;
 pub const LEFT_BAR_WIDTH: usize = 220;
 pub const MIDDLE_BAR_WIDTH: usize = 620;
 pub const RIGHT_BAR_WIDTH: usize = 480;
-pub const MIN_COLUMN_WIDTH: usize = 4;
+pub const MIN_COLUMN_WIDTH: usize = 3;
 
 pub const EVENT_LINE_COLOR: Color = Color("#222");
 pub const LOCATION_SEPERATOR_LINE_COLOR: Color = Color("#888");
@@ -31,7 +31,7 @@ pub const LOCATION_HEADER_TEXT_STYLE: TextStyle = TextStyle {
 
 pub const EVENT_NAME_TEXT_STYLE: TextStyle = TextStyle {
     align: TextAlign::Left,
-    size: 12,
+    size: 16,
     vertical_align: TextVerticalAlign::Middle,
 };
 
@@ -47,7 +47,7 @@ pub const EVENT_LINE_STYLE: LineStyle = LineStyle {
 
 pub const TIME_TEXT_STYLE: TextStyle = TextStyle {
     align: TextAlign::Right,
-    size: 12,
+    size: 16,
     vertical_align: TextVerticalAlign::Baseline,
 };
 
