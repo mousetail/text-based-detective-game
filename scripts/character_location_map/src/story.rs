@@ -36,6 +36,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
     return vec![
         Scene {
             locations: vec![boxon, greenfield],
+            name: "Past Years",
             characters: vec![
                 rebecca_red,
                 dianna_robinson,
@@ -95,12 +96,10 @@ pub fn get_story() -> Vec<Scene<'static>> {
                 },
                 Event {
                     time: None,
-                    movement: vec![
-                        Movement {
-                            characters: vec![duncan_moss],
-                            to: Some(greenfield),
-                        },
-                    ],
+                    movement: vec![Movement {
+                        characters: vec![duncan_moss],
+                        to: Some(greenfield),
+                    }],
                     action: Some(Action {
                         characters: vec![rebecca_red, duncan_moss],
                         name: "Rebecca and Duncan start dating",
@@ -126,7 +125,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     }),
                 },
                 Event {
-                    time: Some("Dec 2023"),
+                    time: Some("Fri, Dec 22 2023"),
                     movement: vec![],
                     action: Some(Action {
                         characters: vec![dianna_robinson],
@@ -134,7 +133,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     }),
                 },
                 Event {
-                    time: Some("4 Jan 2024"),
+                    time: Some("Thu, 4 Jan 2024"),
                     movement: vec![],
                     action: Some(Action {
                         characters: vec![],
@@ -142,7 +141,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     }),
                 },
                 Event {
-                    time: Some("8 Jan 2024"),
+                    time: Some("Mon Jan 2024"),
                     movement: vec![Movement {
                         characters: vec![rebecca_red],
                         to: Some(boxon),
@@ -179,6 +178,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                 duncan_moss,
             ],
             locations: vec![rebeccas_appartment, restaurant, hotel, other],
+            name: "Past Days",
             events: vec![
                 Event {
                     time: Some("Fri, 12 Jan 2024 15:00"),
@@ -325,6 +325,8 @@ pub fn get_story() -> Vec<Scene<'static>> {
                 judy_woolridge,
                 duncan_moss,
             ],
+
+            name: "Past Hours",
             events: vec![
                 Event {
                     time: Some("Sun, 14 Jan 2024, 10:30"),

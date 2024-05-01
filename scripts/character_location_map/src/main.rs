@@ -1,4 +1,6 @@
-use std::collections::HashMap;
+use std::fs;
+use std::{collections::HashMap, fs::OpenOptions};
+use std::io::Write;
 
 use scene_metadata_calculations::get_character_introduction_times;
 use story::get_story;
@@ -56,25 +58,50 @@ struct Scene<'a> {
     locations: Vec<Location<'a>>,
     characters: Vec<Character<'a>>,
     events: Vec<Event<'a>>,
+    name: &'a str,
 }
 
 type Story<'a> = Vec<Scene<'a>>;
 
-fn generate_svg(story: Story) {
-    let mut y = 0;
+fn generate_svg(story: Story) -> std::io::Result<()> {
 
-    let mut elements = Vec::<svg::SvgElement>::new();
     for scene in story {
-        elements.extend(generate_svg_for_scene(scene, &mut y).into_iter());
-    }
+        let mut y = 0;
+        let name = scene.name;
+        let elements = generate_svg_for_scene(scene, &mut y);
 
-    svg::Svg {
-        width: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH + RIGHT_BAR_WIDTH,
-        height: y + VERTICAL_SPACING / 2,
-        elements,
-    }
-    .write("out.svg".to_string())
-    .unwrap();
+        svg::Svg {
+            width: LEFT_BAR_WIDTH + MIDDLE_BAR_WIDTH + RIGHT_BAR_WIDTH,
+            height: y + VERTICAL_SPACING / 2,
+            elements,
+        }
+        .write(format!("{name}.svg"))?;
+    };
+
+    Ok(())
+}
+
+/// This really should be a seperate binary
+fn generate_markdown() -> std::io::Result<()> {
+
+    let mut file = OpenOptions::new()
+        .write(true)
+        .create(true)
+        .truncate(true)
+        .open("out.html")?;
+
+    write!(file, r#"
+        <!DOCTYPE html>
+        <html>
+            <head>
+            </head>
+            <body>
+                {}
+            </body>
+        </html>
+    "#, markdown::to_html(&fs::read_to_string("../../story.md")?))?;
+
+    Ok(())
 }
 
 fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
@@ -255,4 +282,6 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
 
 fn main() {
     generate_svg(get_story());
+
+    generate_markdown();
 }
