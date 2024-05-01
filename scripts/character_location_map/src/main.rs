@@ -94,6 +94,12 @@ fn generate_markdown() -> std::io::Result<()> {
         <!DOCTYPE html>
         <html>
             <head>
+                <base href="../..">
+                <style>
+                    body {{
+                        font-family: sans-serif;
+                    }}
+                </style>
             </head>
             <body>
                 {}

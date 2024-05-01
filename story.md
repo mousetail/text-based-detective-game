@@ -1,45 +1,144 @@
 # Characters
 
-- Red - Victim
-- Orange - Red's Girlfriend/Wife
-- Blue - Red's Friend from college
-- Green - Red's Sister
-- Yellow - Green's boyfriend and Red's childhood friend
+## Rebecca Red
 
-# Backstory
+![rebecca red](static/rebecca_red.svg)
 
-- During college, Red and Blue developed a impressive new material processing system.
-  - Since they where very busy with this, Red plagarized a different assignment to meet a deadline.
-  - This was Red's first warning, but Blue had plagarized before, so they where unable to graduate
-  - With this idea Red got some funding to help him create a startup to sell and refine this idea
+Chemistry Major
 
-# Motives
+### Character Traits
 
-- Red
-- Orange - ??
-- Blue - Will stand to receive a presigeous prize if the only remaining co-author
-- Green - Would also be hurt if the family buisness was sold
-- Yellow - Red intends to force selling the family buisness
+* Ambitious
+* Smart
+* Independant
+* Difficulty focusing on one thing (ADHD?)
+
+### Relationships
+
+* Feels *Pitty* for causing Rebecca to leave school
+* *Annoyed* at Rufus for contantly asking things of her when she is busy
+* *Thankfull* to Duncan for giving her an escape
+* *Angry* at Judy for not supporting her.
+
+## Rufus Red
+
+![rebecca red](static/rufus_red.svg)
+
+Rebeccas brother. His life has been completely turned over by the death of his father and is struggling to cope. Rebecca is unable to provide him the support he needs. Works in his fathers bakery.
+
+### Character Traits
+
+* Loyal
+* Inexperienced
+* People pleaser
+* Stoic
+
+### Relationships
+
+* Feels *Angry* at Rebecca for not giving support during his father's death.
+* *Neutral* towards Dianna
+* *Annoyed* for Duncan because Rebecca no longer really has time for him. Rejects Duncan't attempts to help as he sees Duncan as the source of his rocky relationship
+with Rebecca.
+* Both *Thankfull* but *Freightened* of Judy for standing up for him
+
+### Potential Motives
+
+Not splitting the inheritence and being able to keep the shop. But this would not fit his character.
+
+## Dianna Robinson
+
+![rebecca red](static/dianna_robinson.svg)
+
+Dianna is interested in science for it's own sake and really want to discover more. Money is of lesser concern to her though she also likes the freedom to explore how she wants.
+
+Feels releived she can get to work on the Mysery Science Project after all but after finding out the cost feels very guilty about it.
+
+### Character Traits
+
+* Smart
+* Trusting
+* Curious
+* Strong work ethic
+
+### Relationships
+
+* *Mixed* towards Rebecca, for first betraying her then promising to make it up but then learning about the cost.
+* *Pitty* for Rufus, never really spoke in detail, but considers him likable.
+* *Friendly* with Duncan. 
+* *Freightened* of Judy
+
+### Potential Motives
+
+Revenge (But it was made up to her)
+
+Wanting the company for herself. (But she was given a part anyways)
+
+## Duncan Moss
+
+![rebecca red](static/duncan_moss.svg)
+
+Duncan is from a different major, dating Rebecca for a few months. Member of the extended friend group that Dianna and Rebecca had before.
+
+### Character Traits
+
+* Calm, Gentle
+* Conflict avoidand
+* Diplomat
+
+### Relationships
+
+* *Concerend* for Rebecca. He realizes she has dug herself into an impossible hole and he is unsure how to help her as she keeps digging herself deeper.
+* *Pity* for Rufus. Really wants to support Rufus but Rufus sees Duncan as the source of his problems.
+* *Jealous* of Dianna because Rebecca will tell her things but not Duncan.
+* *Respectfull* of Judy for supporting Rufus and helping him stand up for herself. But also *confused* by her behavior.
+
+### Potential Motives
+
+Pity
+
+Maybe inheriting part of the VC cash (but they aren't actually married)
+
+## Judy Woolridge
+
+![judy woolridge](static/judy_goldridge.svg)
+
+A friend of Rebecca from back in their home town. Has kept in regular contact. In love with Rufus.
+
+### Character Traits
+
+* Assertive
+* Strong sense of justice
+* Hands-on
+* Stubborn
+* Patriotic towards the small town
+
+### Relationships
+
+* *Angry* at Rebecca for "wronging" Rufus and her father.
+* *In Love* with Rufus, but unreturned.
+* *Jeallous* and *Agnry* at Dianna for being a pawn in the mess
+* *Dismissive* at Duncan for being too diplomatic and neutral in something where Judy seems there is just one right answer.
+
+### Potential Motives
+
+* Love for Rufus
+* Beleif in preserving the small town
 
 # Timeline
 
-- 6 Years ago - Red and Blue meet
-- 6 Months ago - Red and blue develop the material science technique
-- 5 Months Ago - Blue gets expelled for plagarism
-- 4 Months Ago - A investor sees a early draft of the material science technique and offers Red funding to create a startup to further develop it. Blue is excluded because they are not part of the unviversity at this point
-- Over the next 4 months, Red works further on their Thesis while also working on the startup funding application. Blue is trying to prove their innoscence.
-- 6 Weeks ago - Startup funding approved - As encouraged by the buisness analyst they buy a building, both for use for the company and to live
-- 1 Week ago - Red and Green's Father dies, delaying the move
-- 3 Days ago - Red and Green's Father funeral, Red goes back to their hometown
-- 2 Days ago - Red, Green, (Orange?), and Yellow drive together back to Techville.
-- 1 Day ago - Red announces intention to sell their portion of the family buisness, against the will of Yellow and Green.
-- Locations 30 minutes before the Murder:
-  - Green is painting the basement
-  - Red is fixing a window in the second floor
-  - Blue is painting in the buisness area
-  - Yellow is in the living room area hanging up light fixtures
-  - Pink was out front
-- 0 seconds ago - Red pushed out window by Green
+## Past Years
+
+![image](scripts/character_location_map/Past%20Years.svg)
+
+## Past Days
+
+![image](scripts/character_location_map/Past%20Days.svg)
+
+
+## Past Hours
+
+![image](scripts/character_location_map/Past%20Hours.svg)
+
 
 # House Layout
 
