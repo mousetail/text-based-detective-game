@@ -287,7 +287,7 @@ fn generate_svg_for_scene(scene: Scene, y: &mut usize) -> Vec<svg::SvgElement> {
 }
 
 fn main() {
-    generate_svg(get_story());
+    generate_svg(get_story()).unwrap();
 
-    generate_markdown();
+    generate_markdown().unwrap();
 }

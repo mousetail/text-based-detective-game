@@ -15,6 +15,10 @@ pub fn get_story() -> Vec<Scene<'static>> {
         name: "Rebecca Red",
     };
 
+    let greyham_red = Character {
+        name: "Greyham Red",
+    };
+
     let greenfield = Location { name: "Greenfield" };
     let boxon = Location { name: "Boxon" };
 
@@ -43,18 +47,34 @@ pub fn get_story() -> Vec<Scene<'static>> {
                 rufus_red,
                 judy_woolridge,
                 duncan_moss,
+                greyham_red
             ],
             events: vec![
                 Event {
                     time: None,
                     movement: vec![Movement {
-                        characters: vec![rufus_red, rebecca_red],
+                        characters: vec![rufus_red, judy_woolridge, rebecca_red],
                         to: Some(boxon),
                     }],
-                    action: None,
+                    action: Some(
+                        Action {
+                            characters: vec![rufus_red, rebecca_red, judy_woolridge],
+                            name: "Go to school in Boxon"
+                        }
+                    ),
                 },
                 Event {
                     time: Some("2018"),
+                    movement: vec![],
+                    action: Some(
+                        Action {
+                            characters: vec![judy_woolridge, rebecca_red],
+                            name: "Graduates High School"
+                        }
+                    )
+                },
+                Event {
+                    time: None,
                     movement: vec![Movement {
                         characters: vec![rebecca_red],
                         to: Some(greenfield),
@@ -76,6 +96,27 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     }),
                 },
                 Event {
+                    time: Some("2020"),
+                    movement: vec![],
+                    action: Some(Action {
+                        characters: vec![rufus_red],
+                        name: "Rufus graduates starts working at Red Bakery"
+                    })
+                },
+                Event {
+                    time: Some("2023"),
+                    movement: vec![
+                        Movement {
+                            characters: vec![greyham_red],
+                            to: Some(boxon)
+                        }
+                    ],
+                    action: Some(Action {
+                        characters: vec![judy_woolridge],
+                        name: "Judy starts working at Red Bakery"
+                    })
+                },
+                Event {
                     time: Some("Aug 2023"),
                     movement: vec![],
                     action: Some(Action {
@@ -85,10 +126,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                 },
                 Event {
                     time: None,
-                    movement: vec![Movement {
-                        characters: vec![judy_woolridge],
-                        to: Some(boxon),
-                    }],
+                    movement: vec![],
                     action: Some(Action {
                         characters: vec![rufus_red, judy_woolridge],
                         name: "Judy and Rufus start dating",
@@ -107,10 +145,7 @@ pub fn get_story() -> Vec<Scene<'static>> {
                 },
                 Event {
                     time: None,
-                    movement: vec![Movement {
-                        characters: vec![judy_woolridge],
-                        to: Some(boxon),
-                    }],
+                    movement: vec![],
                     action: Some(Action {
                         characters: vec![rufus_red, judy_woolridge],
                         name: "Judy and Rufus break up",
@@ -136,25 +171,28 @@ pub fn get_story() -> Vec<Scene<'static>> {
                     time: Some("Thu, 4 Jan 2024"),
                     movement: vec![],
                     action: Some(Action {
-                        characters: vec![],
+                        characters: vec![greyham_red],
                         name: "Greyham Red Dies",
                     }),
                 },
                 Event {
                     time: Some("Mon Jan 2024"),
                     movement: vec![Movement {
-                        characters: vec![rebecca_red],
+                        characters: vec![rebecca_red, duncan_moss],
                         to: Some(boxon),
+                    }, Movement {
+                        characters: vec![greyham_red],
+                        to: None
                     }],
                     action: Some(Action {
-                        characters: vec![rebecca_red, rufus_red, judy_woolridge],
+                        characters: vec![rebecca_red, rufus_red, judy_woolridge, duncan_moss],
                         name: "Greyham Red's Funeral",
                     }),
                 },
                 Event {
                     time: None,
                     movement: vec![Movement {
-                        characters: vec![rebecca_red],
+                        characters: vec![rebecca_red, duncan_moss],
                         to: Some(greenfield),
                     }],
                     action: None,

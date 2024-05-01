@@ -67,6 +67,9 @@ pub fn get_character_positions_by_time<'a>(
 
             if let Some(people) = people_per_location.get(location) {
                 // Try to keep characters in the same place as much as possible
+                let mut people = people.clone();
+                people.sort_by_cached_key(|t|previous_character_positions_by_time.get(t).copied().unwrap_or(usize::MAX));
+
                 let people_with_positions: Vec<_> = people
                     .iter()
                     .map(|person| {

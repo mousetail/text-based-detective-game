@@ -19,7 +19,7 @@ pub const CHARACTER_COLORS: &'static [Color] = &[
     Color("Blue"),
     Color("#db7093"),
     Color("Purple"),
-    Color("Yellow"),
+    Color("#aa8800"),
     Color("Brown"),
 ];
 
