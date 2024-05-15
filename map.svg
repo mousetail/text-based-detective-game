@@ -1,0 +1,22 @@
+<svg version="1.1"
+     width="300" height="300"
+     viewBox="-1 -1 44 44"
+     xmlns="http://www.w3.org/2000/svg">
+
+    <defs>
+        <g id="door">
+            <path d="M -1 0.1 L 1 0.1 L 1 -0.1 L -1 -0.1 Z" fill="grey" />
+            <path d="M -1 0 A 2 2 90 0 0 1 2 L 1 0 Z" fill="transparent" stroke="grey" stroke-width="0.1">
+        </g>
+    </defs>
+    
+    <use xlink:href="#door" x="19" y="8"/>
+    <use xlink:href="#door" x="19" y="18"/>
+
+    <path
+        fill="transparent"
+        stroke="black"
+        stroke-width="0.25"
+        d="M 0 0 L 20 0 L 20 8 M 20 10 L 20 18 M 20 20 L 20 22 L 12 22 L 12 16 L 0 16 L 0 0"
+    />
+</svg>

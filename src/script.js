@@ -1,8 +1,7 @@
 import markdownit from 'markdown-it';
 import { container } from "@mdit/plugin-container";
+import { mark } from "@mdit/plugin-mark";
 import * as content from 'bundle-text:./story/**/*.md';
-
-console.log(content);
 
 function escapeHTML(str){
   return new Option(str).innerHTML;
@@ -46,7 +45,9 @@ const md = markdownit().use(container, {
   closeRender: (tokens) => {
     return '</div></div></div>\n'
   }
-});
+}).use(
+  mark
+);
 
 const unindent = ([s]) => {
   lines = s
@@ -87,6 +88,7 @@ const documents = {
     },
     messages: {
       D14nna: content.laptop.messages.dianna,
+      Duncan: content.laptop.messages.duncan,
       BikerBro: content.laptop.messages.rufus,
       JuStar: content.laptop.messages.judy,
     },
